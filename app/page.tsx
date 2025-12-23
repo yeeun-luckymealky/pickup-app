@@ -1,4 +1,3 @@
-import PickupDateToggle from '@/components/home/PickupDateToggle';
 import SearchBar from '@/components/home/SearchBar';
 import CurationSlider from '@/components/home/CurationSlider';
 import FilterSection from '@/components/home/FilterSection';
@@ -16,12 +15,9 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-white border-b border-gray-100">
+      <header className="sticky top-0 z-30 bg-white">
         <div className="px-4 py-3">
-          <div className="flex items-center gap-3">
-            <PickupDateToggle />
-            <SearchBar />
-          </div>
+          <SearchBar />
         </div>
       </header>
 
@@ -29,7 +25,7 @@ export default function Home() {
       <CurationSlider />
 
       {/* Filter section - sticky below header */}
-      <div className="sticky top-[57px] z-20 bg-white border-b border-gray-100 px-4">
+      <div className="sticky top-[72px] z-20 bg-white border-b border-gray-100 px-4">
         <FilterSection />
       </div>
 
