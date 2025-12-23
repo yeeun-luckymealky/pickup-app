@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MapPin, ChevronDown, RotateCcw } from 'lucide-react';
+import { MapPin, ChevronDown } from 'lucide-react';
 import { useFilterStore } from '@/store/useFilterStore';
 import { useUIStore } from '@/store/useUIStore';
 import { SORT_OPTIONS } from '@/types/filter';
@@ -16,10 +16,7 @@ export default function FilterSection() {
     pickupDate,
     quickPickup,
     setQuickPickup,
-    parkingAvailable,
-    setParkingAvailable,
     sortBy,
-    resetFilters,
   } = useFilterStore();
   const { setModalOpen } = useUIStore();
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
@@ -32,8 +29,6 @@ export default function FilterSection() {
 
   const currentSortLabel =
     SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label || '가까운 순';
-
-  const hasActiveFilters = quickPickup || parkingAvailable;
 
   return (
     <>
@@ -50,31 +45,14 @@ export default function FilterSection() {
 
         {/* 필터들 - 가로 스크롤 영역 */}
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1">
-          {hasActiveFilters && (
-            <button
-              onClick={resetFilters}
-              className="flex items-center gap-1 px-2 py-1 text-xs text-gray-500 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors flex-shrink-0"
-            >
-              <RotateCcw className="w-3 h-3" />
-              초기화
-            </button>
-          )}
-
-          {/* 빠른픽업 - 오늘 픽업일 때만 표시 */}
+          {/* 오늘 픽업 - 오늘 픽업일 때만 표시 */}
           {pickupDate === 'today' && (
             <Toggle
               enabled={quickPickup}
               onChange={setQuickPickup}
-              label="빠른픽업"
+              label="오늘 픽업"
             />
           )}
-
-          {/* 주차가능 */}
-          <Toggle
-            enabled={parkingAvailable}
-            onChange={setParkingAvailable}
-            label="주차가능"
-          />
 
           <button
             onClick={() => setIsSortModalOpen(true)}
