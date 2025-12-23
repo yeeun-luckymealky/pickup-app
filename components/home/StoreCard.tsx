@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Bookmark, Bell } from 'lucide-react';
+import { Bookmark, Bell, Star } from 'lucide-react';
 import { useFavoriteStore } from '@/store/useFavoriteStore';
 import type { Store } from '@/types/store';
 
@@ -12,6 +12,13 @@ interface StoreCardProps {
 
 function formatPrice(price: number): string {
   return price.toLocaleString('ko-KR');
+}
+
+function formatDistance(meters: number): string {
+  if (meters < 1000) {
+    return `${meters}m`;
+  }
+  return `${(meters / 1000).toFixed(1)}km`;
 }
 
 export default function StoreCard({ store }: StoreCardProps) {
@@ -35,7 +42,12 @@ export default function StoreCard({ store }: StoreCardProps) {
   };
 
   // 오늘/내일 픽업 가능 여부
-  const pickupDay = store.pickupAvailable.today ? '오늘' : '내일';
+  const isToday = store.pickupAvailable.today;
+  const pickupDay = isToday ? '오늘' : '내일';
+
+  // 오늘: 주황색, 내일: 파란색
+  const badgeTextColor = isToday ? 'text-orange-500' : 'text-blue-500';
+  const dayBadgeBg = isToday ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600';
 
   return (
     <Link href={`/store/${store.id}`} className="block">
@@ -55,8 +67,8 @@ export default function StoreCard({ store }: StoreCardProps) {
             </div>
           )}
           {/* 예약 가능 배지 */}
-          <div className="absolute bottom-3 left-3 px-3 py-1.5 bg-white/95 rounded-full text-sm font-medium text-orange-500">
-            {pickupDay} {store.availableCount}개 예약가능
+          <div className={`absolute bottom-3 left-3 px-3 py-1.5 bg-white/95 rounded-full text-sm font-medium ${badgeTextColor}`}>
+            {pickupDay} {store.availableCount >= 5 ? '5+' : store.availableCount}개 예약가능
           </div>
         </div>
         <div className="relative flex-1 bg-gray-100">
@@ -77,15 +89,20 @@ export default function StoreCard({ store }: StoreCardProps) {
 
       {/* 가게 정보 */}
       <div className="pt-3 pb-4">
-        {/* 상단: NEW 태그 + 가게명 + 아이콘 */}
+        {/* 상단: 가게명 + 거리 + 리뷰 + 아이콘 */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {store.isNew && (
               <span className="text-red-500 text-sm font-bold">NEW</span>
             )}
             <h3 className="font-bold text-gray-900 text-[17px]">{store.name}</h3>
+            <span className="text-sm text-gray-400 ml-1">{formatDistance(store.distance)}</span>
+            <span className="flex items-center text-sm text-gray-400">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 mr-0.5" />
+              {store.reviewCount}개
+            </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
               onClick={handleFavoriteClick}
               className="p-1"
@@ -120,7 +137,7 @@ export default function StoreCard({ store }: StoreCardProps) {
         {/* 하단: 픽업 시간 + 가격 */}
         <div className="mt-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 bg-blue-100 text-blue-600 text-xs font-medium rounded">
+            <span className={`px-2 py-0.5 text-xs font-medium rounded ${dayBadgeBg}`}>
               {pickupDay}
             </span>
             <span className="text-sm text-gray-600">{store.pickupTime}</span>
