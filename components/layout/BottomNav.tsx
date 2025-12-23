@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, ClipboardList, User } from 'lucide-react';
+import { Home, Compass, ClipboardList, User } from 'lucide-react';
 import { useUIStore } from '@/store/useUIStore';
 
 const navItems = [
   { href: '/', label: '홈', icon: Home },
+  { href: '/explore', label: '탐색', icon: Compass },
   { href: '/order-status', label: '주문현황', icon: ClipboardList },
-  { href: '/mypage', label: '마이페이지', icon: User },
+  { href: '/mypage', label: '내럭키밀', icon: User },
 ];
 
 export default function BottomNav() {
@@ -26,27 +27,29 @@ export default function BottomNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 safe-area-bottom">
-      <div className="max-w-lg mx-auto flex justify-around items-center h-16">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                isActive ? 'text-green-500' : 'text-gray-500'
-              }`}
-            >
-              <Icon className="w-6 h-6" strokeWidth={isActive ? 2.5 : 2} />
-              <span className={`text-xs mt-1 ${isActive ? 'font-semibold' : ''}`}>
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-6 pointer-events-none safe-area-bottom">
+      <nav className="max-w-md mx-auto bg-white rounded-full shadow-lg pointer-events-auto border border-gray-100">
+        <div className="flex justify-around items-center h-14 px-2">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+                  isActive ? 'text-green-500' : 'text-gray-400'
+                }`}
+              >
+                <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 1.5} />
+                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-semibold' : 'font-medium'}`}>
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </div>
   );
 }

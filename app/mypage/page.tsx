@@ -13,7 +13,7 @@ export default function MyPage() {
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-30 bg-white border-b border-gray-100">
         <div className="px-4 py-4">
-          <h1 className="text-xl font-bold">마이페이지</h1>
+          <h1 className="text-xl font-bold">내럭키밀</h1>
         </div>
       </header>
 
