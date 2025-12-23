@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MapPin, ChevronDown } from 'lucide-react';
+import { MapPin, ChevronDown, Home, Building2 } from 'lucide-react';
 import { useFilterStore } from '@/store/useFilterStore';
 import { useUIStore } from '@/store/useUIStore';
+import { useSavedLocationStore } from '@/store/useSavedLocationStore';
 import { SORT_OPTIONS, CATEGORY_OPTIONS } from '@/types/filter';
 import Toggle from '@/components/ui/Toggle';
 import SortModal from './SortModal';
@@ -20,6 +21,7 @@ export default function FilterSection() {
     sortBy,
     category,
   } = useFilterStore();
+  const { home, work } = useSavedLocationStore();
   const { setModalOpen } = useUIStore();
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
@@ -36,6 +38,12 @@ export default function FilterSection() {
   const currentCategoryLabel =
     CATEGORY_OPTIONS.find((opt) => opt.value === category)?.label || '전체';
 
+  // 집/회사 여부 확인
+  const isHome = home === location;
+  const isWork = work === location;
+  const locationLabel = isHome ? '집' : isWork ? '회사' : location;
+  const LocationIcon = isHome ? Home : isWork ? Building2 : MapPin;
+
   return (
     <>
       <div className="flex items-center gap-2 py-3">
@@ -44,8 +52,8 @@ export default function FilterSection() {
           onClick={() => setIsLocationModalOpen(true)}
           className="flex items-center gap-1 text-sm text-gray-700 hover:text-green-600 transition-colors flex-shrink-0"
         >
-          <MapPin className="w-4 h-4 text-green-500 flex-shrink-0" />
-          <span className="truncate max-w-[100px]">{location}</span>
+          <LocationIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
+          <span className="truncate max-w-[100px]">{locationLabel}</span>
           <ChevronDown className="w-3 h-3 text-gray-400 flex-shrink-0" />
         </button>
 
