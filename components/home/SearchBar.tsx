@@ -44,15 +44,14 @@ export default function SearchBar() {
       </button>
 
       {/* 프로필 */}
-      <button
-        onClick={handleProfileClick}
-        className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden border-2 border-gray-800 bg-gradient-to-br from-teal-400 to-teal-600"
-        aria-label="마이페이지"
-      >
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-2 h-2 rounded-full bg-green-400 absolute bottom-0 right-0" />
-        </div>
-      </button>
+      <div className="relative flex-shrink-0">
+        <button
+          onClick={handleProfileClick}
+          className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-800 bg-gradient-to-br from-teal-400 to-teal-600"
+          aria-label="마이페이지"
+        />
+        <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
+      </div>
     </div>
   );
 }
