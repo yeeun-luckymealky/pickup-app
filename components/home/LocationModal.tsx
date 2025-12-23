@@ -303,7 +303,7 @@ export default function LocationModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 bg-white">
+    <div className="fixed inset-0 z-[100] bg-white">
       {viewMode === 'main' && renderMainView()}
       {viewMode === 'search' && renderSearchView()}
       {viewMode === 'map' && renderMapView()}
