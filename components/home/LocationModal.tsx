@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Search, Crosshair, Home, ChevronRight } from 'lucide-react';
+import { X, Search, Crosshair, Home, Building2, ChevronRight, ArrowLeft } from 'lucide-react';
 import { useSavedLocationStore } from '@/store/useSavedLocationStore';
 
 interface LocationModalProps {
@@ -12,6 +12,7 @@ interface LocationModalProps {
 }
 
 type ViewMode = 'main' | 'search' | 'map';
+type RegisterType = 'home' | 'work' | null;
 
 export default function LocationModal({
   isOpen,
@@ -19,9 +20,10 @@ export default function LocationModal({
   currentLocation,
   onSelectLocation,
 }: LocationModalProps) {
-  const { home, setHome } = useSavedLocationStore();
+  const { home, work, setHome, setWork } = useSavedLocationStore();
   const [viewMode, setViewMode] = useState<ViewMode>('main');
   const [searchQuery, setSearchQuery] = useState('');
+  const [registerType, setRegisterType] = useState<RegisterType>(null);
   const [selectedAddress, setSelectedAddress] = useState<{
     name: string;
     address: string;
@@ -35,6 +37,7 @@ export default function LocationModal({
       setViewMode('main');
       setSearchQuery('');
       setSelectedAddress(null);
+      setRegisterType(null);
     }
   }, [isOpen]);
 
@@ -46,7 +49,6 @@ export default function LocationModal({
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          // 임시로 좌표 기반 주소 설정 (실제로는 reverse geocoding 필요)
           setSelectedAddress({
             name: '현재 위치',
             address: `위도: ${latitude.toFixed(4)}, 경도: ${longitude.toFixed(4)}`,
@@ -81,17 +83,31 @@ export default function LocationModal({
   // 주소 설정 완료
   const handleConfirmAddress = () => {
     if (selectedAddress) {
+      // 집/회사 등록 모드인 경우 저장
+      if (registerType === 'home') {
+        setHome(selectedAddress.address);
+      } else if (registerType === 'work') {
+        setWork(selectedAddress.address);
+      }
+
       onSelectLocation(selectedAddress.address);
       onClose();
     }
   };
 
-  // 집으로 등록
-  const handleSetAsHome = () => {
-    if (selectedAddress) {
-      setHome(selectedAddress.address);
-      onSelectLocation(selectedAddress.address);
-      onClose();
+  // 집/회사 등록 시작
+  const handleStartRegister = (type: 'home' | 'work') => {
+    setRegisterType(type);
+    setViewMode('search');
+  };
+
+  // 뒤로가기
+  const handleBack = () => {
+    if (viewMode === 'map') {
+      setViewMode('search');
+    } else if (viewMode === 'search') {
+      setViewMode('main');
+      setRegisterType(null);
     }
   };
 
@@ -110,7 +126,10 @@ export default function LocationModal({
       {/* 검색창 */}
       <div className="px-4 py-4">
         <button
-          onClick={() => setViewMode('search')}
+          onClick={() => {
+            setRegisterType(null);
+            setViewMode('search');
+          }}
           className="flex items-center gap-3 w-full py-3 border-b border-gray-200"
         >
           <Search className="w-5 h-5 text-gray-400" />
@@ -121,7 +140,10 @@ export default function LocationModal({
       {/* 현재 위치로 주소 찾기 */}
       <div className="px-4">
         <button
-          onClick={handleCurrentLocation}
+          onClick={() => {
+            setRegisterType(null);
+            handleCurrentLocation();
+          }}
           className="flex items-center justify-center gap-2 w-full py-4 border border-gray-300 rounded-lg text-gray-700 font-medium"
         >
           <Crosshair className="w-5 h-5" />
@@ -129,22 +151,36 @@ export default function LocationModal({
         </button>
       </div>
 
-      {/* 집 추가 */}
-      <div className="px-4 mt-6">
+      {/* 집/회사 추가 */}
+      <div className="px-4 mt-6 space-y-1">
+        {/* 집 */}
         <button
-          onClick={() => {
-            setViewMode('search');
-          }}
-          className="flex items-center gap-3 w-full py-3"
+          onClick={() => handleStartRegister('home')}
+          className="flex items-center gap-3 w-full py-3 hover:bg-gray-50 rounded-lg transition-colors"
         >
           <Home className="w-5 h-5 text-gray-600" />
-          <span className="text-gray-700">{home ? '집 수정' : '집 추가'}</span>
+          <span className="text-gray-700 font-medium">{home ? '집' : '집 추가'}</span>
           {home && (
-            <span className="text-sm text-gray-400 ml-auto truncate max-w-[150px]">
+            <span className="text-sm text-gray-400 ml-auto truncate max-w-[180px]">
               {home}
             </span>
           )}
-          <ChevronRight className="w-5 h-5 text-gray-400" />
+          <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
+        </button>
+
+        {/* 회사 */}
+        <button
+          onClick={() => handleStartRegister('work')}
+          className="flex items-center gap-3 w-full py-3 hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          <Building2 className="w-5 h-5 text-gray-600" />
+          <span className="text-gray-700 font-medium">{work ? '회사' : '회사 추가'}</span>
+          {work && (
+            <span className="text-sm text-gray-400 ml-auto truncate max-w-[180px]">
+              {work}
+            </span>
+          )}
+          <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
         </button>
       </div>
     </div>
@@ -155,10 +191,12 @@ export default function LocationModal({
     <div className="flex flex-col h-full">
       {/* 헤더 */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-        <button onClick={() => setViewMode('main')} className="p-1">
+        <button onClick={handleBack} className="p-1">
           <X className="w-6 h-6 text-gray-700" />
         </button>
-        <h2 className="text-lg font-bold">주소 관리</h2>
+        <h2 className="text-lg font-bold">
+          {registerType === 'home' ? '집 주소 등록' : registerType === 'work' ? '회사 주소 등록' : '주소 관리'}
+        </h2>
         <div className="w-8" />
       </div>
 
@@ -210,10 +248,10 @@ export default function LocationModal({
       {/* 헤더 */}
       <div className="absolute top-4 left-4 z-10">
         <button
-          onClick={() => setViewMode('main')}
+          onClick={handleBack}
           className="p-2 bg-white rounded-full shadow-md"
         >
-          <X className="w-5 h-5 text-gray-700" />
+          <ArrowLeft className="w-5 h-5 text-gray-700" />
         </button>
       </div>
 
@@ -258,7 +296,7 @@ export default function LocationModal({
           onClick={handleConfirmAddress}
           className="w-full py-4 bg-blue-500 text-white font-semibold rounded-lg"
         >
-          설정하기
+          {registerType === 'home' ? '집으로 설정하기' : registerType === 'work' ? '회사로 설정하기' : '설정하기'}
         </button>
       </div>
     </div>
