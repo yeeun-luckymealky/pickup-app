@@ -131,7 +131,7 @@ export default function SearchInputView({ onClose }: SearchInputViewProps) {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="지역, 가게명, 메뉴 검색"
-                className="w-full h-10 pl-4 pr-16 bg-gray-100 rounded-lg text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white transition-colors"
+                className="w-full h-12 pl-4 pr-12 bg-white border-2 border-green-500 rounded-lg text-sm placeholder:text-gray-400 focus:outline-none transition-colors"
                 autoFocus
               />
               {inputValue && (
@@ -148,9 +148,9 @@ export default function SearchInputView({ onClose }: SearchInputViewProps) {
               )}
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-gray-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1"
               >
-                <Search className="w-5 h-5 text-gray-500" />
+                <Search className="w-5 h-5 text-gray-400" />
               </button>
             </form>
           </div>

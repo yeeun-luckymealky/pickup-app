@@ -13,7 +13,7 @@ import { CATEGORIES } from '@/data/categories';
 import type { Store, Event } from '@/types/store';
 
 export default function SearchPage() {
-  const [isInputMode, setIsInputMode] = useState(false);
+  const [isInputMode, setIsInputMode] = useState(true);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [sheetPosition, setSheetPosition] = useState<SheetPosition>('half');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
