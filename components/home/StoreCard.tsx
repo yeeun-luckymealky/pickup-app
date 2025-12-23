@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
+import Image from 'next/image';
+import { Bookmark, Bell } from 'lucide-react';
 import { useFavoriteStore } from '@/store/useFavoriteStore';
 import type { Store } from '@/types/store';
 
@@ -9,25 +10,8 @@ interface StoreCardProps {
   store: Store;
 }
 
-const BREAD_EMOJIS = ['🥐', '🍞', '🥖', '🧁', '🍰', '🥯', '🥨', '🍩'];
-
-function getBreadEmoji(index: number): string {
-  return BREAD_EMOJIS[index % BREAD_EMOJIS.length];
-}
-
-function formatDistance(meters: number): string {
-  if (meters < 1000) {
-    return `${meters}m`;
-  }
-  return `${(meters / 1000).toFixed(1)}km`;
-}
-
 function formatPrice(price: number): string {
   return price.toLocaleString('ko-KR');
-}
-
-function calculateDiscountRate(original: number, sale: number): number {
-  return Math.round(((original - sale) / original) * 100);
 }
 
 export default function StoreCard({ store }: StoreCardProps) {
@@ -38,87 +22,117 @@ export default function StoreCard({ store }: StoreCardProps) {
     item.salePrice < min.salePrice ? item : min
   );
 
-  const discountRate = calculateDiscountRate(
-    lowestPriceItem.originalPrice,
-    lowestPriceItem.salePrice
-  );
-
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     toggleFavorite(store.id);
   };
 
-  return (
-    <Link
-      href={`/store/${store.id}`}
-      className="block bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
-    >
-      {/* Menu images slider */}
-      <div className="relative">
-        <div className="flex overflow-x-auto scrollbar-hide gap-1 p-1">
-          {store.menuItems.map((item, index) => (
-            <div
-              key={item.id}
-              className="relative flex-shrink-0 w-28 h-28 rounded-lg overflow-hidden bg-amber-50"
-            >
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl">{getBreadEmoji(index)}</span>
-                <span className="text-xs text-amber-700 mt-1 px-1 text-center line-clamp-1">
-                  {item.name}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+  const handleNotificationClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // TODO: 알림 설정 로직
+  };
 
-        {/* Favorite button */}
-        <button
-          onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-colors"
-          aria-label={favorite ? '찜 해제' : '찜하기'}
-        >
-          <Heart
-            className={`w-5 h-5 ${
-              favorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
-            }`}
-          />
-        </button>
+  // 오늘/내일 픽업 가능 여부
+  const pickupDay = store.pickupAvailable.today ? '오늘' : '내일';
+
+  return (
+    <Link href={`/store/${store.id}`} className="block">
+      {/* 이미지 영역 - 2개 나란히 */}
+      <div className="flex gap-[2px] h-[140px] overflow-hidden rounded-lg">
+        <div className="relative flex-1 bg-gray-100">
+          {store.images[0] ? (
+            <Image
+              src={store.images[0]}
+              alt={store.name}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-amber-100 flex items-center justify-center">
+              <span className="text-4xl">🥐</span>
+            </div>
+          )}
+          {/* 예약 가능 배지 */}
+          <div className="absolute bottom-3 left-3 px-3 py-1.5 bg-white/95 rounded-full text-sm font-medium text-orange-500">
+            {pickupDay} {store.availableCount}개 예약가능
+          </div>
+        </div>
+        <div className="relative flex-1 bg-gray-100">
+          {store.images[1] ? (
+            <Image
+              src={store.images[1]}
+              alt={store.name}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-amber-50 flex items-center justify-center">
+              <span className="text-4xl">🥖</span>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Store info */}
-      <div className="p-3">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-gray-900 truncate">{store.name}</h3>
-          {store.isNew && (
-            <span className="flex-shrink-0 px-2 py-0.5 bg-green-100 text-green-600 text-xs font-medium rounded-full">
-              신규입점
+      {/* 가게 정보 */}
+      <div className="pt-3 pb-4">
+        {/* 상단: NEW 태그 + 가게명 + 아이콘 */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {store.isNew && (
+              <span className="text-red-500 text-sm font-bold">NEW</span>
+            )}
+            <h3 className="font-bold text-gray-900 text-[17px]">{store.name}</h3>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleFavoriteClick}
+              className="p-1"
+              aria-label={favorite ? '저장 해제' : '저장하기'}
+            >
+              <Bookmark
+                className={`w-5 h-5 ${
+                  favorite ? 'fill-gray-900 text-gray-900' : 'text-gray-400'
+                }`}
+              />
+            </button>
+            <button
+              onClick={handleNotificationClick}
+              className="p-1"
+              aria-label="알림 설정"
+            >
+              <Bell className="w-5 h-5 text-gray-400" />
+            </button>
+          </div>
+        </div>
+
+        {/* 메뉴 태그 */}
+        <p className="mt-1 text-sm text-gray-500">
+          {store.menuItems.slice(0, 3).map((item, idx) => (
+            <span key={item.id}>
+              {item.name}
+              {idx < Math.min(store.menuItems.length, 3) - 1 && ' | '}
             </span>
-          )}
-        </div>
+          ))}
+        </p>
 
-        {/* Price */}
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-lg font-bold text-green-500">
-            {formatPrice(lowestPriceItem.salePrice)}원
-          </span>
-          <span className="text-sm text-gray-400 line-through">
-            {formatPrice(lowestPriceItem.originalPrice)}원
-          </span>
-          <span className="text-sm font-semibold text-red-500">
-            -50%
-          </span>
-        </div>
-
-        {/* Distance & quick pickup */}
-        <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-          <span>{formatDistance(store.distance)}</span>
-          {store.quickPickup && (
-            <>
-              <span className="text-gray-300">|</span>
-              <span className="text-green-500 font-medium">빠른픽업</span>
-            </>
-          )}
+        {/* 하단: 픽업 시간 + 가격 */}
+        <div className="mt-2 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 bg-blue-100 text-blue-600 text-xs font-medium rounded">
+              {pickupDay}
+            </span>
+            <span className="text-sm text-gray-600">{store.pickupTime}</span>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-sm text-gray-400 line-through">
+              {formatPrice(lowestPriceItem.originalPrice)}원
+            </span>
+            <span className="text-lg font-bold text-gray-900">
+              {formatPrice(lowestPriceItem.salePrice)}원
+            </span>
+          </div>
         </div>
       </div>
     </Link>

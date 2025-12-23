@@ -3,6 +3,7 @@
     "id": "store-1",
     "name": "맛있는 베이커리",
     "address": "서울시 강남구 역삼동",
+    "images": ["/images/bread1.jpg", "/images/bread2.jpg"],
     "menuItems": [
       { "id": "menu-1-1", "name": "크루아상 세트", "image": "/images/croissant.jpg", "originalPrice": 12000, "salePrice": 7900 },
       { "id": "menu-1-2", "name": "소금빵 3개", "image": "/images/bread.jpg", "originalPrice": 9000, "salePrice": 5500 },
@@ -17,6 +18,8 @@
     "favoriteCount": 456,
     "notificationCount": 89,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "09:00 ~ 10:30",
+    "availableCount": 5,
     "quickPickup": true,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4979, "lng": 127.0276 }
@@ -25,6 +28,7 @@
     "id": "store-2",
     "name": "신선 초밥집",
     "address": "서울시 송파구 잠실동",
+    "images": ["/images/sushi1.jpg", "/images/sushi2.jpg"],
     "menuItems": [
       { "id": "menu-2-1", "name": "모둠 초밥 12p", "image": "/images/sushi.jpg", "originalPrice": 25000, "salePrice": 15900 },
       { "id": "menu-2-2", "name": "연어 초밥 6p", "image": "/images/salmon.jpg", "originalPrice": 15000, "salePrice": 9900 },
@@ -38,6 +42,8 @@
     "favoriteCount": 892,
     "notificationCount": 156,
     "pickupAvailable": { "today": true, "tomorrow": false },
+    "pickupTime": "11:30 ~ 13:00",
+    "availableCount": 3,
     "quickPickup": false,
     "parkingAvailable": false,
     "coordinates": { "lat": 37.4989, "lng": 127.0286 }
@@ -46,6 +52,7 @@
     "id": "store-3",
     "name": "행복한 샐러드",
     "address": "서울시 강남구 삼성동",
+    "images": ["/images/salad1.jpg", "/images/salad2.jpg"],
     "menuItems": [
       { "id": "menu-3-1", "name": "치킨 샐러드", "image": "/images/salad.jpg", "originalPrice": 11000, "salePrice": 6900 },
       { "id": "menu-3-2", "name": "연어 샐러드", "image": "/images/salmon-salad.jpg", "originalPrice": 13000, "salePrice": 8500 },
@@ -59,6 +66,8 @@
     "favoriteCount": 234,
     "notificationCount": 45,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "10:00 ~ 11:30",
+    "availableCount": 8,
     "quickPickup": true,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4969, "lng": 127.0256 }
@@ -67,6 +76,7 @@
     "id": "store-4",
     "name": "도시락 명가",
     "address": "서울시 송파구 석촌동",
+    "images": ["/images/lunchbox1.jpg", "/images/lunchbox2.jpg"],
     "menuItems": [
       { "id": "menu-4-1", "name": "불고기 도시락", "image": "/images/bulgogi.jpg", "originalPrice": 9500, "salePrice": 5900 },
       { "id": "menu-4-2", "name": "치킨 도시락", "image": "/images/chicken-box.jpg", "originalPrice": 8500, "salePrice": 4900 },
@@ -81,6 +91,8 @@
     "favoriteCount": 178,
     "notificationCount": 34,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "11:00 ~ 12:30",
+    "availableCount": 10,
     "quickPickup": true,
     "parkingAvailable": false,
     "coordinates": { "lat": 37.4999, "lng": 127.0266 }
@@ -89,6 +101,7 @@
     "id": "store-5",
     "name": "잠실파스텔커피숍",
     "address": "서울시 송파구 잠실동",
+    "images": ["/images/coffee1.jpg", "/images/coffee2.jpg"],
     "menuItems": [
       { "id": "menu-5-1", "name": "아메리카노 + 베이글", "image": "/images/coffee-bagel.jpg", "originalPrice": 8500, "salePrice": 4900 },
       { "id": "menu-5-2", "name": "잠실라떼", "image": "/images/latte-muffin.jpg", "originalPrice": 9500, "salePrice": 5500 },
@@ -102,6 +115,8 @@
     "favoriteCount": 567,
     "notificationCount": 123,
     "pickupAvailable": { "today": false, "tomorrow": true },
+    "pickupTime": "08:20 ~ 09:30",
+    "availableCount": 6,
     "quickPickup": false,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4959, "lng": 127.0296 }
@@ -110,6 +125,7 @@
     "id": "store-6",
     "name": "파스타 공방",
     "address": "서울시 서초구 반포동",
+    "images": ["/images/pasta1.jpg", "/images/pasta2.jpg"],
     "menuItems": [
       { "id": "menu-6-1", "name": "까르보나라", "image": "/images/carbonara.jpg", "originalPrice": 14000, "salePrice": 8900 },
       { "id": "menu-6-2", "name": "봉골레 파스타", "image": "/images/vongole.jpg", "originalPrice": 15000, "salePrice": 9500 },
@@ -123,6 +139,8 @@
     "favoriteCount": 423,
     "notificationCount": 78,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "12:00 ~ 13:30",
+    "availableCount": 4,
     "quickPickup": false,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4949, "lng": 127.0306 }
@@ -131,6 +149,7 @@
     "id": "store-7",
     "name": "나는잠실빵집이야",
     "address": "서울시 송파구 잠실동",
+    "images": ["/images/bakery1.jpg", "/images/bakery2.jpg"],
     "menuItems": [
       { "id": "menu-7-1", "name": "소보로빵", "image": "/images/fried.jpg", "originalPrice": 3000, "salePrice": 1900 },
       { "id": "menu-7-2", "name": "크림빵", "image": "/images/yangnyum.jpg", "originalPrice": 3500, "salePrice": 2000 },
@@ -144,6 +163,8 @@
     "favoriteCount": 1023,
     "notificationCount": 234,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "08:00 ~ 09:30",
+    "availableCount": 12,
     "quickPickup": true,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4985, "lng": 127.0280 }
@@ -152,6 +173,7 @@
     "id": "store-8",
     "name": "분식천국",
     "address": "서울시 강동구 천호동",
+    "images": ["/images/bunsik1.jpg", "/images/bunsik2.jpg"],
     "menuItems": [
       { "id": "menu-8-1", "name": "떡볶이", "image": "/images/tteok.jpg", "originalPrice": 6000, "salePrice": 3900 },
       { "id": "menu-8-2", "name": "순대", "image": "/images/sundae.jpg", "originalPrice": 7000, "salePrice": 4500 },
@@ -166,6 +188,8 @@
     "favoriteCount": 678,
     "notificationCount": 145,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "10:30 ~ 12:00",
+    "availableCount": 7,
     "quickPickup": true,
     "parkingAvailable": false,
     "coordinates": { "lat": 37.4975, "lng": 127.0270 }
@@ -174,6 +198,7 @@
     "id": "store-9",
     "name": "한솥 도시락",
     "address": "서울시 송파구 문정동",
+    "images": ["/images/hansot1.jpg", "/images/hansot2.jpg"],
     "menuItems": [
       { "id": "menu-9-1", "name": "김치찌개 정식", "image": "/images/kimchi.jpg", "originalPrice": 8500, "salePrice": 5500 },
       { "id": "menu-9-2", "name": "된장찌개 정식", "image": "/images/doenjang.jpg", "originalPrice": 8000, "salePrice": 5000 },
@@ -187,6 +212,8 @@
     "favoriteCount": 345,
     "notificationCount": 89,
     "pickupAvailable": { "today": true, "tomorrow": false },
+    "pickupTime": "11:00 ~ 13:00",
+    "availableCount": 5,
     "quickPickup": true,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4965, "lng": 127.0290 }
@@ -195,6 +222,7 @@
     "id": "store-10",
     "name": "조금먼카페in잠실",
     "address": "서울시 송파구 신천동",
+    "images": ["/images/cafe1.jpg", "/images/cafe2.jpg"],
     "menuItems": [
       { "id": "menu-10-1", "name": "런치 세트", "image": "/images/omakase1.jpg", "originalPrice": 15000, "salePrice": 9900 },
       { "id": "menu-10-2", "name": "브런치 세트", "image": "/images/roll.jpg", "originalPrice": 18000, "salePrice": 11900 },
@@ -208,6 +236,8 @@
     "favoriteCount": 1234,
     "notificationCount": 289,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "14:00 ~ 16:00",
+    "availableCount": 3,
     "quickPickup": false,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4940, "lng": 127.0310 }
@@ -216,6 +246,7 @@
     "id": "store-11",
     "name": "피자파티",
     "address": "서울시 강남구 대치동",
+    "images": ["/images/pizza1.jpg", "/images/pizza2.jpg"],
     "menuItems": [
       { "id": "menu-11-1", "name": "페퍼로니 피자", "image": "/images/pepperoni.jpg", "originalPrice": 18000, "salePrice": 11900 },
       { "id": "menu-11-2", "name": "하와이안 피자", "image": "/images/hawaiian.jpg", "originalPrice": 19000, "salePrice": 12500 },
@@ -229,6 +260,8 @@
     "favoriteCount": 567,
     "notificationCount": 123,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "17:00 ~ 19:00",
+    "availableCount": 6,
     "quickPickup": true,
     "parkingAvailable": false,
     "coordinates": { "lat": 37.4992, "lng": 127.0262 }
@@ -237,6 +270,7 @@
     "id": "store-12",
     "name": "보문산아래빵집",
     "address": "서울시 성북구 보문동",
+    "images": ["/images/bomunbread1.jpg", "/images/bomunbread2.jpg"],
     "menuItems": [
       { "id": "menu-12-1", "name": "잠실라떼빵", "image": "/images/club.jpg", "originalPrice": 4500, "salePrice": 2900 },
       { "id": "menu-12-2", "name": "우유식빵", "image": "/images/blt.jpg", "originalPrice": 5500, "salePrice": 3500 },
@@ -250,6 +284,8 @@
     "favoriteCount": 289,
     "notificationCount": 67,
     "pickupAvailable": { "today": true, "tomorrow": true },
+    "pickupTime": "07:30 ~ 09:00",
+    "availableCount": 9,
     "quickPickup": true,
     "parkingAvailable": false,
     "coordinates": { "lat": 37.4982, "lng": 127.0268 }
