@@ -1,13 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import BottomNav from '@/components/layout/BottomNav';
-
-const notoSansKr = Noto_Sans_KR({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-noto-sans-kr',
-});
 
 export const metadata: Metadata = {
   title: '마감할인',
@@ -45,7 +38,7 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className={`${notoSansKr.variable} font-sans antialiased bg-gray-50`}>
+      <body className="font-sans antialiased bg-gray-50">
         <div className="min-h-screen max-w-lg mx-auto bg-white">
           <main className="pb-32">{children}</main>
           <BottomNav />

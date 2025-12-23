@@ -27,7 +27,7 @@ export default function SearchBar() {
         className="flex-1 relative"
       >
         <div className="flex items-center w-full h-12 px-4 border-2 border-green-500 rounded-lg bg-white">
-          <span className="flex-1 text-left text-[15px] text-gray-500 truncate">
+          <span className="flex-1 text-left text-[15px] text-gray-500 truncate font-parkdahyeon">
             망원소금빵, 오늘부터 알고리즘 등장하기로 함
           </span>
           <Search className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
