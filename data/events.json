@@ -1,0 +1,20 @@
+[
+  {
+    "id": "event-1",
+    "title": "신규 회원 첫 주문 50% 할인",
+    "image": "/images/event-welcome.jpg",
+    "link": "/event/event-1"
+  },
+  {
+    "id": "event-2",
+    "title": "친구 추천하면 5,000원 적립금",
+    "image": "/images/event-referral.jpg",
+    "link": "/event/event-2"
+  },
+  {
+    "id": "event-3",
+    "title": "주말 특별 할인 이벤트",
+    "image": "/images/event-weekend.jpg",
+    "link": "/event/event-3"
+  }
+]

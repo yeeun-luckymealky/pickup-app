@@ -1,0 +1,37 @@
+[
+  {
+    "id": "curation-1",
+    "title": "오늘의 빵집",
+    "subtitle": "갓 구운 빵 할인",
+    "emoji": "🥐",
+    "bgColor": "from-amber-100 to-orange-100"
+  },
+  {
+    "id": "curation-2",
+    "title": "신선한 초밥",
+    "subtitle": "프리미엄 초밥 특가",
+    "emoji": "🍣",
+    "bgColor": "from-blue-100 to-cyan-100"
+  },
+  {
+    "id": "curation-3",
+    "title": "커피 한 잔",
+    "subtitle": "카페 마감 세일",
+    "emoji": "☕",
+    "bgColor": "from-amber-50 to-yellow-100"
+  },
+  {
+    "id": "curation-4",
+    "title": "건강 샐러드",
+    "subtitle": "신선한 샐러드 할인",
+    "emoji": "🥗",
+    "bgColor": "from-green-100 to-emerald-100"
+  },
+  {
+    "id": "curation-5",
+    "title": "든든한 도시락",
+    "subtitle": "푸짐한 도시락 특가",
+    "emoji": "🍱",
+    "bgColor": "from-rose-100 to-pink-100"
+  }
+]
