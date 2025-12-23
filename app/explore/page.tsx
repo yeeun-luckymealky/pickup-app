@@ -6,64 +6,67 @@ import Link from 'next/link';
 
 // Featured campaign data
 const featuredCampaign = {
-  title: '연말 럭키밀 특별전',
+  title: '에디터가 직접 모은, 럭키밀 속 트리 맛집',
   items: [
     {
       id: 1,
       image: '/images/featured-1.jpg',
-      title: '성심당 × 럭키밀',
-      subtitle: '대전의 전설을 만나보세요',
-      description: '단독 할인 진행중',
-      bgColor: 'bg-gradient-to-br from-amber-900 via-amber-800 to-yellow-900',
+      title: '연남동 화이트 트리',
+      subtitle: '새하얀 트리와 새하얀 팡도르',
+      description: '단독 판매 진행중',
+      bgColor: 'bg-gradient-to-br from-slate-100 via-gray-200 to-stone-300',
+      textColor: 'text-gray-900',
     },
     {
       id: 2,
       image: '/images/featured-2.jpg',
-      title: '크리스마스 럭키박스',
-      subtitle: '2,000원 상당 디저트',
-      description: '선착순 100명 한정',
-      bgColor: 'bg-gradient-to-br from-red-900 via-red-800 to-rose-900',
+      title: '성수동 빈티지 트리',
+      subtitle: '레트로 감성 가득한 디저트',
+      description: '12월 한정 메뉴',
+      bgColor: 'bg-gradient-to-br from-amber-800 via-orange-900 to-red-900',
+      textColor: 'text-white',
     },
     {
       id: 3,
       image: '/images/featured-3.jpg',
-      title: '연말 감사 이벤트',
-      subtitle: '최대 70% 할인',
-      description: '12월 한정 혜택',
-      bgColor: 'bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900',
+      title: '한남동 골드 트리',
+      subtitle: '황금빛 크리스마스 케이크',
+      description: '예약 필수',
+      bgColor: 'bg-gradient-to-br from-yellow-600 via-amber-700 to-orange-800',
+      textColor: 'text-white',
     },
   ],
 };
 
-// Theme/situation based picks
-const themePicks = [
+// 골목별 럭키코스 추천
+const locationPicks = [
   {
     id: 1,
-    title: '퇴근길\n간식 챙기기',
-    hashtag: '#퇴근후럭키밀',
-    bgColor: 'bg-gradient-to-br from-orange-600 to-amber-700',
-    textColor: 'text-white',
+    title: '문래동',
+    subtitle: '철공소 골목의 숨은 맛집',
+    storeCount: 8,
+    bgColor: 'bg-gradient-to-br from-zinc-700 to-stone-800',
   },
   {
     id: 2,
-    title: '주말 브런치\n디저트',
-    hashtag: '#주말디저트',
-    bgColor: 'bg-gradient-to-br from-pink-500 to-rose-600',
-    textColor: 'text-white',
+    title: '성수동',
+    subtitle: '힙한 카페 & 베이커리',
+    storeCount: 12,
+    bgColor: 'bg-gradient-to-br from-emerald-700 to-teal-800',
   },
   {
     id: 3,
-    title: '오늘만\n이 가격',
-    hashtag: '#오늘의특가',
-    bgColor: 'bg-gradient-to-br from-violet-600 to-purple-700',
-    textColor: 'text-white',
+    title: '자양동',
+    subtitle: '로컬 맛집 탐방',
+    storeCount: 6,
+    bgColor: 'bg-gradient-to-br from-orange-600 to-amber-700',
   },
   {
     id: 4,
-    title: '새로 온\n가게',
-    hashtag: '#신규입점',
-    bgColor: 'bg-gradient-to-br from-cyan-600 to-blue-700',
-    textColor: 'text-white',
+    title: '방배동',
+    subtitle: '조용한 동네 디저트',
+    storeCount: 5,
+    bgColor: 'bg-gradient-to-br from-rose-600 to-pink-700',
   },
 ];
 
@@ -173,18 +176,20 @@ export default function ExplorePage() {
                 className="flex-shrink-0 w-64"
               >
                 <div className={`relative h-72 rounded-2xl overflow-hidden ${item.bgColor}`}>
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  {/* Gradient overlay - only for dark backgrounds */}
+                  {item.textColor !== 'text-gray-900' && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  )}
 
                   {/* Content */}
                   <div className="absolute inset-0 p-5 flex flex-col justify-end">
-                    <h3 className="text-white text-xl font-bold leading-tight mb-1">
+                    <h3 className={`text-xl font-bold leading-tight mb-1 ${item.textColor || 'text-white'}`}>
                       {item.title}
                     </h3>
-                    <p className="text-white/90 text-sm font-medium mb-0.5">
+                    <p className={`text-sm font-medium mb-0.5 ${item.textColor === 'text-gray-900' ? 'text-gray-600' : 'text-white/90'}`}>
                       {item.subtitle}
                     </p>
-                    <p className="text-white/60 text-xs">
+                    <p className={`text-xs ${item.textColor === 'text-gray-900' ? 'text-gray-500' : 'text-white/60'}`}>
                       {item.description}
                     </p>
                   </div>
@@ -194,25 +199,30 @@ export default function ExplorePage() {
           </div>
         </section>
 
-        {/* Theme Picks */}
+        {/* Location Picks */}
         <section className="py-6">
           <div className="px-4 mb-4">
-            <h2 className="text-lg font-bold">상황별 · 주제별 BEST</h2>
+            <h2 className="text-lg font-bold">골목별 럭키코스 추천</h2>
           </div>
           <div className="flex gap-3 overflow-x-auto scrollbar-hide px-4">
-            {themePicks.map((theme) => (
+            {locationPicks.map((location) => (
               <Link
-                key={theme.id}
-                href={`/explore/theme/${theme.id}`}
+                key={location.id}
+                href={`/explore/location/${location.id}`}
                 className="flex-shrink-0"
               >
-                <div className={`relative w-32 h-40 rounded-2xl overflow-hidden ${theme.bgColor}`}>
+                <div className={`relative w-36 h-44 rounded-2xl overflow-hidden ${location.bgColor}`}>
                   <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                    <h3 className={`text-base font-bold leading-tight whitespace-pre-line ${theme.textColor}`}>
-                      {theme.title}
-                    </h3>
-                    <span className={`text-xs opacity-80 ${theme.textColor}`}>
-                      {theme.hashtag}
+                    <div>
+                      <h3 className="text-white text-lg font-bold">
+                        {location.title}
+                      </h3>
+                      <p className="text-white/70 text-xs mt-1">
+                        {location.subtitle}
+                      </p>
+                    </div>
+                    <span className="text-white/50 text-xs">
+                      {location.storeCount}개 가게
                     </span>
                   </div>
                 </div>
