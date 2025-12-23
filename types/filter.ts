@@ -17,11 +17,21 @@ export type SortOption =
   | 'priceLow'
   | 'priceHigh';
 
+export type CategoryOption =
+  | 'all'
+  | 'bread'
+  | 'cookie'
+  | 'salad'
+  | 'lunchbox'
+  | 'sushi'
+  | 'coffee';
+
 export interface FilterState {
   pickupDate: PickupDate;
   quickPickup: boolean;
   parkingAvailable: boolean;
   sortBy: SortOption;
+  category: CategoryOption;
   searchQuery: string;
   location: string;
 }
@@ -33,4 +43,14 @@ export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: 'notifications', label: '알림 많은 순' },
   { value: 'priceLow', label: '낮은 가격순' },
   { value: 'priceHigh', label: '높은 가격순' },
+];
+
+export const CATEGORY_OPTIONS: { value: CategoryOption; label: string }[] = [
+  { value: 'all', label: '전체' },
+  { value: 'bread', label: '식사빵' },
+  { value: 'cookie', label: '구움과자' },
+  { value: 'salad', label: '샐러드' },
+  { value: 'lunchbox', label: '도시락' },
+  { value: 'sushi', label: '초밥' },
+  { value: 'coffee', label: '커피/음료' },
 ];
