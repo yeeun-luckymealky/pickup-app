@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Search, Crosshair, Home, Building2, ChevronRight, ArrowLeft } from 'lucide-react';
 import { useSavedLocationStore } from '@/store/useSavedLocationStore';
 
@@ -21,6 +22,7 @@ export default function LocationModal({
   onSelectLocation,
 }: LocationModalProps) {
   const { home, work, setHome, setWork } = useSavedLocationStore();
+  const [mounted, setMounted] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('main');
   const [searchQuery, setSearchQuery] = useState('');
   const [registerType, setRegisterType] = useState<RegisterType>(null);
@@ -31,6 +33,11 @@ export default function LocationModal({
     lng: number;
   } | null>(null);
 
+  // 클라이언트 마운트 확인
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // 모달이 열릴 때 상태 초기화
   useEffect(() => {
     if (isOpen) {
@@ -40,8 +47,6 @@ export default function LocationModal({
       setRegisterType(null);
     }
   }, [isOpen]);
-
-  if (!isOpen) return null;
 
   // 현재 위치로 주소 찾기
   const handleCurrentLocation = () => {
@@ -83,13 +88,11 @@ export default function LocationModal({
   // 주소 설정 완료
   const handleConfirmAddress = () => {
     if (selectedAddress) {
-      // 집/회사 등록 모드인 경우 저장
       if (registerType === 'home') {
         setHome(selectedAddress.address);
       } else if (registerType === 'work') {
         setWork(selectedAddress.address);
       }
-
       onSelectLocation(selectedAddress.address);
       onClose();
     }
@@ -111,10 +114,12 @@ export default function LocationModal({
     }
   };
 
+  // 서버 사이드에서는 렌더링하지 않음
+  if (!mounted || !isOpen) return null;
+
   // 메인 뷰 (주소 관리)
   const renderMainView = () => (
     <div className="flex flex-col h-full">
-      {/* 헤더 */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
         <button onClick={onClose} className="p-1">
           <X className="w-6 h-6 text-gray-700" />
@@ -123,7 +128,6 @@ export default function LocationModal({
         <div className="w-8" />
       </div>
 
-      {/* 검색창 */}
       <div className="px-4 py-4">
         <button
           onClick={() => {
@@ -137,7 +141,6 @@ export default function LocationModal({
         </button>
       </div>
 
-      {/* 현재 위치로 주소 찾기 */}
       <div className="px-4">
         <button
           onClick={() => {
@@ -151,9 +154,7 @@ export default function LocationModal({
         </button>
       </div>
 
-      {/* 집/회사 추가 */}
       <div className="px-4 mt-6 space-y-1">
-        {/* 집 */}
         <button
           onClick={() => handleStartRegister('home')}
           className="flex items-center gap-3 w-full py-3 hover:bg-gray-50 rounded-lg transition-colors"
@@ -168,7 +169,6 @@ export default function LocationModal({
           <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
         </button>
 
-        {/* 회사 */}
         <button
           onClick={() => handleStartRegister('work')}
           className="flex items-center gap-3 w-full py-3 hover:bg-gray-50 rounded-lg transition-colors"
@@ -189,7 +189,6 @@ export default function LocationModal({
   // 검색 뷰
   const renderSearchView = () => (
     <div className="flex flex-col h-full">
-      {/* 헤더 */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
         <button onClick={handleBack} className="p-1">
           <X className="w-6 h-6 text-gray-700" />
@@ -200,7 +199,6 @@ export default function LocationModal({
         <div className="w-8" />
       </div>
 
-      {/* 검색 입력 */}
       <div className="px-4 py-4">
         <div className="flex items-center gap-3 py-3 border-b border-gray-200">
           <Search className="w-5 h-5 text-gray-400" />
@@ -216,7 +214,6 @@ export default function LocationModal({
         </div>
       </div>
 
-      {/* 현재 위치로 주소 찾기 */}
       <div className="px-4">
         <button
           onClick={handleCurrentLocation}
@@ -227,7 +224,6 @@ export default function LocationModal({
         </button>
       </div>
 
-      {/* 검색 결과 (데모) */}
       {searchQuery && (
         <div className="px-4 mt-4">
           <button
@@ -245,7 +241,6 @@ export default function LocationModal({
   // 지도 확인 뷰
   const renderMapView = () => (
     <div className="flex flex-col h-full">
-      {/* 헤더 */}
       <div className="absolute top-4 left-4 z-10">
         <button
           onClick={handleBack}
@@ -255,14 +250,12 @@ export default function LocationModal({
         </button>
       </div>
 
-      {/* 안내 메시지 */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
         <div className="px-4 py-2 bg-gray-800 text-white text-sm rounded-full">
           입력하신 주소지를 확인해주세요
         </div>
       </div>
 
-      {/* 지도 영역 (placeholder) */}
       <div className="flex-1 bg-gray-200 flex items-center justify-center relative">
         <div className="text-center">
           <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -275,7 +268,6 @@ export default function LocationModal({
         </div>
       </div>
 
-      {/* 하단 주소 정보 */}
       <div className="bg-white px-4 py-5 rounded-t-2xl -mt-4 relative z-10">
         <div className="flex items-start justify-between mb-4">
           <div>
@@ -302,11 +294,14 @@ export default function LocationModal({
     </div>
   );
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] bg-white">
-      {viewMode === 'main' && renderMainView()}
-      {viewMode === 'search' && renderSearchView()}
-      {viewMode === 'map' && renderMapView()}
-    </div>
+      <div className="max-w-lg mx-auto h-full bg-white relative">
+        {viewMode === 'main' && renderMainView()}
+        {viewMode === 'search' && renderSearchView()}
+        {viewMode === 'map' && renderMapView()}
+      </div>
+    </div>,
+    document.body
   );
 }
