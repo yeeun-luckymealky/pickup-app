@@ -3,16 +3,13 @@
 import { useMemo } from 'react';
 import { useFilterStore } from '@/store/useFilterStore';
 import StoreCard from './StoreCard';
-import RollingEventBanner from './RollingEventBanner';
 import type { Store } from '@/types/store';
-import type { Event } from '@/types/store';
 
 interface StoreListProps {
   stores: Store[];
-  events: Event[];
 }
 
-export default function StoreList({ stores, events }: StoreListProps) {
+export default function StoreList({ stores }: StoreListProps) {
   const { pickupDate, quickPickup, parkingAvailable, sortBy, searchQuery } = useFilterStore();
 
   const filteredAndSortedStores = useMemo(() => {
@@ -81,16 +78,8 @@ export default function StoreList({ stores, events }: StoreListProps) {
 
   return (
     <div className="space-y-4">
-      {filteredAndSortedStores.map((store, index) => (
-        <div key={store.id}>
-          <StoreCard store={store} />
-          {/* 3번째 가게 뒤에만 롤링 배너 표시 */}
-          {index === 2 && events.length > 0 && (
-            <div className="mt-4">
-              <RollingEventBanner events={events} />
-            </div>
-          )}
-        </div>
+      {filteredAndSortedStores.map((store) => (
+        <StoreCard key={store.id} store={store} />
       ))}
     </div>
   );

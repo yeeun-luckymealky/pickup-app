@@ -5,12 +5,10 @@ import GuideButton from '@/components/home/GuideButton';
 import StoreList from '@/components/home/StoreList';
 import MapViewButton from '@/components/home/MapViewButton';
 import storesData from '@/data/stores.json';
-import eventsData from '@/data/events.json';
-import type { Store, Event } from '@/types/store';
+import type { Store } from '@/types/store';
 
 export default function Home() {
   const stores: Store[] = storesData as Store[];
-  const events: Event[] = eventsData as Event[];
 
   return (
     <div className="flex flex-col">
@@ -39,7 +37,7 @@ export default function Home() {
 
         {/* Store list */}
         <div className="py-4">
-          <StoreList stores={stores} events={events} />
+          <StoreList stores={stores} />
         </div>
       </div>
 
