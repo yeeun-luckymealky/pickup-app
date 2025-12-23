@@ -3,14 +3,14 @@
     "id": "store-1",
     "name": "맛있는 베이커리",
     "address": "서울시 강남구 역삼동",
-    "images": ["/images/bread1.jpg", "/images/bread2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-1-1", "name": "크루아상 세트", "image": "/images/croissant.jpg", "originalPrice": 12000, "salePrice": 7900 },
-      { "id": "menu-1-2", "name": "소금빵 3개", "image": "/images/bread.jpg", "originalPrice": 9000, "salePrice": 5500 },
-      { "id": "menu-1-3", "name": "케이크 조각", "image": "/images/cake.jpg", "originalPrice": 8000, "salePrice": 4900 },
-      { "id": "menu-1-4", "name": "마카롱 5개", "image": "/images/macaron.jpg", "originalPrice": 15000, "salePrice": 9900 },
-      { "id": "menu-1-5", "name": "식빵 한덩이", "image": "/images/loaf.jpg", "originalPrice": 6000, "salePrice": 3500 },
-      { "id": "menu-1-6", "name": "베이글 세트", "image": "/images/bagel.jpg", "originalPrice": 10000, "salePrice": 6500 }
+      { "id": "menu-1-1", "name": "크루아상 세트", "image": "", "originalPrice": 12000, "salePrice": 7900 },
+      { "id": "menu-1-2", "name": "소금빵 3개", "image": "", "originalPrice": 9000, "salePrice": 5500 },
+      { "id": "menu-1-3", "name": "케이크 조각", "image": "", "originalPrice": 8000, "salePrice": 4900 }
     ],
     "distance": 350,
     "isNew": true,
@@ -28,13 +28,14 @@
     "id": "store-2",
     "name": "신선 초밥집",
     "address": "서울시 송파구 잠실동",
-    "images": ["/images/sushi1.jpg", "/images/sushi2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-2-1", "name": "모둠 초밥 12p", "image": "/images/sushi.jpg", "originalPrice": 25000, "salePrice": 15900 },
-      { "id": "menu-2-2", "name": "연어 초밥 6p", "image": "/images/salmon.jpg", "originalPrice": 15000, "salePrice": 9900 },
-      { "id": "menu-2-3", "name": "참치 초밥 6p", "image": "/images/tuna.jpg", "originalPrice": 18000, "salePrice": 11900 },
-      { "id": "menu-2-4", "name": "새우 초밥 4p", "image": "/images/shrimp.jpg", "originalPrice": 12000, "salePrice": 7900 },
-      { "id": "menu-2-5", "name": "장어 초밥 4p", "image": "/images/eel.jpg", "originalPrice": 16000, "salePrice": 10900 }
+      { "id": "menu-2-1", "name": "모둠 초밥 12p", "image": "", "originalPrice": 25000, "salePrice": 15900 },
+      { "id": "menu-2-2", "name": "연어 초밥 6p", "image": "", "originalPrice": 15000, "salePrice": 9900 },
+      { "id": "menu-2-3", "name": "참치 초밥 6p", "image": "", "originalPrice": 18000, "salePrice": 11900 }
     ],
     "distance": 780,
     "isNew": false,
@@ -52,13 +53,14 @@
     "id": "store-3",
     "name": "행복한 샐러드",
     "address": "서울시 강남구 삼성동",
-    "images": ["/images/salad1.jpg", "/images/salad2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-3-1", "name": "치킨 샐러드", "image": "/images/salad.jpg", "originalPrice": 11000, "salePrice": 6900 },
-      { "id": "menu-3-2", "name": "연어 샐러드", "image": "/images/salmon-salad.jpg", "originalPrice": 13000, "salePrice": 8500 },
-      { "id": "menu-3-3", "name": "그릭 샐러드", "image": "/images/greek-salad.jpg", "originalPrice": 9000, "salePrice": 5900 },
-      { "id": "menu-3-4", "name": "시저 샐러드", "image": "/images/caesar.jpg", "originalPrice": 10000, "salePrice": 6500 },
-      { "id": "menu-3-5", "name": "퀴노아 샐러드", "image": "/images/quinoa.jpg", "originalPrice": 12000, "salePrice": 7900 }
+      { "id": "menu-3-1", "name": "치킨 샐러드", "image": "", "originalPrice": 11000, "salePrice": 6900 },
+      { "id": "menu-3-2", "name": "연어 샐러드", "image": "", "originalPrice": 13000, "salePrice": 8500 },
+      { "id": "menu-3-3", "name": "그릭 샐러드", "image": "", "originalPrice": 9000, "salePrice": 5900 }
     ],
     "distance": 1200,
     "isNew": false,
@@ -76,14 +78,14 @@
     "id": "store-4",
     "name": "도시락 명가",
     "address": "서울시 송파구 석촌동",
-    "images": ["/images/lunchbox1.jpg", "/images/lunchbox2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-4-1", "name": "불고기 도시락", "image": "/images/bulgogi.jpg", "originalPrice": 9500, "salePrice": 5900 },
-      { "id": "menu-4-2", "name": "치킨 도시락", "image": "/images/chicken-box.jpg", "originalPrice": 8500, "salePrice": 4900 },
-      { "id": "menu-4-3", "name": "제육 도시락", "image": "/images/jeyuk.jpg", "originalPrice": 9000, "salePrice": 5500 },
-      { "id": "menu-4-4", "name": "연어 도시락", "image": "/images/salmon-box.jpg", "originalPrice": 11000, "salePrice": 6900 },
-      { "id": "menu-4-5", "name": "비빔밥 도시락", "image": "/images/bibimbap.jpg", "originalPrice": 8000, "salePrice": 4500 },
-      { "id": "menu-4-6", "name": "돈까스 도시락", "image": "/images/tonkatsu.jpg", "originalPrice": 9500, "salePrice": 5900 }
+      { "id": "menu-4-1", "name": "불고기 도시락", "image": "", "originalPrice": 9500, "salePrice": 5900 },
+      { "id": "menu-4-2", "name": "치킨 도시락", "image": "", "originalPrice": 8500, "salePrice": 4900 },
+      { "id": "menu-4-3", "name": "제육 도시락", "image": "", "originalPrice": 9000, "salePrice": 5500 }
     ],
     "distance": 450,
     "isNew": true,
@@ -101,13 +103,14 @@
     "id": "store-5",
     "name": "잠실파스텔커피숍",
     "address": "서울시 송파구 잠실동",
-    "images": ["/images/coffee1.jpg", "/images/coffee2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-5-1", "name": "아메리카노 + 베이글", "image": "/images/coffee-bagel.jpg", "originalPrice": 8500, "salePrice": 4900 },
-      { "id": "menu-5-2", "name": "잠실라떼", "image": "/images/latte-muffin.jpg", "originalPrice": 9500, "salePrice": 5500 },
-      { "id": "menu-5-3", "name": "카푸치노 + 쿠키", "image": "/images/cappuccino.jpg", "originalPrice": 8000, "salePrice": 4500 },
-      { "id": "menu-5-4", "name": "콜드브루 + 샌드위치", "image": "/images/coldbrew.jpg", "originalPrice": 11000, "salePrice": 6900 },
-      { "id": "menu-5-5", "name": "에스프레소 + 티라미수", "image": "/images/espresso.jpg", "originalPrice": 10000, "salePrice": 5900 }
+      { "id": "menu-5-1", "name": "아메리카노 + 베이글", "image": "", "originalPrice": 8500, "salePrice": 4900 },
+      { "id": "menu-5-2", "name": "잠실라떼", "image": "", "originalPrice": 9500, "salePrice": 5500 },
+      { "id": "menu-5-3", "name": "카푸치노 + 쿠키", "image": "", "originalPrice": 8000, "salePrice": 4500 }
     ],
     "distance": 890,
     "isNew": false,
@@ -125,13 +128,14 @@
     "id": "store-6",
     "name": "파스타 공방",
     "address": "서울시 서초구 반포동",
-    "images": ["/images/pasta1.jpg", "/images/pasta2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-6-1", "name": "까르보나라", "image": "/images/carbonara.jpg", "originalPrice": 14000, "salePrice": 8900 },
-      { "id": "menu-6-2", "name": "봉골레 파스타", "image": "/images/vongole.jpg", "originalPrice": 15000, "salePrice": 9500 },
-      { "id": "menu-6-3", "name": "로제 파스타", "image": "/images/rose.jpg", "originalPrice": 13000, "salePrice": 7900 },
-      { "id": "menu-6-4", "name": "알리오올리오", "image": "/images/aglio.jpg", "originalPrice": 12000, "salePrice": 7500 },
-      { "id": "menu-6-5", "name": "토마토 파스타", "image": "/images/tomato.jpg", "originalPrice": 11000, "salePrice": 6900 }
+      { "id": "menu-6-1", "name": "까르보나라", "image": "", "originalPrice": 14000, "salePrice": 8900 },
+      { "id": "menu-6-2", "name": "봉골레 파스타", "image": "", "originalPrice": 15000, "salePrice": 9500 },
+      { "id": "menu-6-3", "name": "로제 파스타", "image": "", "originalPrice": 13000, "salePrice": 7900 }
     ],
     "distance": 1500,
     "isNew": false,
@@ -147,24 +151,25 @@
   },
   {
     "id": "store-7",
-    "name": "나는잠실빵집이야",
+    "name": "롤링핀 평택고덕점",
     "address": "서울시 송파구 잠실동",
-    "images": ["/images/bakery1.jpg", "/images/bakery2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-7-1", "name": "소보로빵", "image": "/images/fried.jpg", "originalPrice": 3000, "salePrice": 1900 },
-      { "id": "menu-7-2", "name": "크림빵", "image": "/images/yangnyum.jpg", "originalPrice": 3500, "salePrice": 2000 },
-      { "id": "menu-7-3", "name": "단팥빵", "image": "/images/soy.jpg", "originalPrice": 3000, "salePrice": 1800 },
-      { "id": "menu-7-4", "name": "식빵", "image": "/images/garlic.jpg", "originalPrice": 5000, "salePrice": 3000 },
-      { "id": "menu-7-5", "name": "바게트", "image": "/images/tender.jpg", "originalPrice": 6000, "salePrice": 3500 }
+      { "id": "menu-7-1", "name": "압구정식빵", "image": "", "originalPrice": 20000, "salePrice": 10000 },
+      { "id": "menu-7-2", "name": "밤식빵", "image": "", "originalPrice": 18000, "salePrice": 9000 },
+      { "id": "menu-7-3", "name": "고구마식빵", "image": "", "originalPrice": 16000, "salePrice": 8000 }
     ],
     "distance": 320,
-    "isNew": false,
+    "isNew": true,
     "reviewCount": 456,
     "favoriteCount": 1023,
     "notificationCount": 234,
-    "pickupAvailable": { "today": true, "tomorrow": true },
-    "pickupTime": "08:00 ~ 09:30",
-    "availableCount": 12,
+    "pickupAvailable": { "today": false, "tomorrow": true },
+    "pickupTime": "08:20 ~ 09:30",
+    "availableCount": 5,
     "quickPickup": true,
     "parkingAvailable": true,
     "coordinates": { "lat": 37.4985, "lng": 127.0280 }
@@ -173,14 +178,14 @@
     "id": "store-8",
     "name": "분식천국",
     "address": "서울시 강동구 천호동",
-    "images": ["/images/bunsik1.jpg", "/images/bunsik2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1635363638580-c2809d049eee?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-8-1", "name": "떡볶이", "image": "/images/tteok.jpg", "originalPrice": 6000, "salePrice": 3900 },
-      { "id": "menu-8-2", "name": "순대", "image": "/images/sundae.jpg", "originalPrice": 7000, "salePrice": 4500 },
-      { "id": "menu-8-3", "name": "튀김 세트", "image": "/images/twigim.jpg", "originalPrice": 8000, "salePrice": 4900 },
-      { "id": "menu-8-4", "name": "라볶이", "image": "/images/rabokki.jpg", "originalPrice": 8000, "salePrice": 5500 },
-      { "id": "menu-8-5", "name": "김밥 2줄", "image": "/images/kimbap.jpg", "originalPrice": 7000, "salePrice": 4500 },
-      { "id": "menu-8-6", "name": "오뎅탕", "image": "/images/odeng.jpg", "originalPrice": 6000, "salePrice": 3500 }
+      { "id": "menu-8-1", "name": "떡볶이", "image": "", "originalPrice": 6000, "salePrice": 3900 },
+      { "id": "menu-8-2", "name": "순대", "image": "", "originalPrice": 7000, "salePrice": 4500 },
+      { "id": "menu-8-3", "name": "튀김 세트", "image": "", "originalPrice": 8000, "salePrice": 4900 }
     ],
     "distance": 200,
     "isNew": true,
@@ -198,13 +203,14 @@
     "id": "store-9",
     "name": "한솥 도시락",
     "address": "서울시 송파구 문정동",
-    "images": ["/images/hansot1.jpg", "/images/hansot2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-9-1", "name": "김치찌개 정식", "image": "/images/kimchi.jpg", "originalPrice": 8500, "salePrice": 5500 },
-      { "id": "menu-9-2", "name": "된장찌개 정식", "image": "/images/doenjang.jpg", "originalPrice": 8000, "salePrice": 5000 },
-      { "id": "menu-9-3", "name": "순두부 정식", "image": "/images/sundubu.jpg", "originalPrice": 8500, "salePrice": 5500 },
-      { "id": "menu-9-4", "name": "삼겹살 정식", "image": "/images/samgyup.jpg", "originalPrice": 12000, "salePrice": 7900 },
-      { "id": "menu-9-5", "name": "갈비탕 정식", "image": "/images/galbitang.jpg", "originalPrice": 11000, "salePrice": 6900 }
+      { "id": "menu-9-1", "name": "김치찌개 정식", "image": "", "originalPrice": 8500, "salePrice": 5500 },
+      { "id": "menu-9-2", "name": "된장찌개 정식", "image": "", "originalPrice": 8000, "salePrice": 5000 },
+      { "id": "menu-9-3", "name": "순두부 정식", "image": "", "originalPrice": 8500, "salePrice": 5500 }
     ],
     "distance": 650,
     "isNew": false,
@@ -222,13 +228,14 @@
     "id": "store-10",
     "name": "조금먼카페in잠실",
     "address": "서울시 송파구 신천동",
-    "images": ["/images/cafe1.jpg", "/images/cafe2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-10-1", "name": "런치 세트", "image": "/images/omakase1.jpg", "originalPrice": 15000, "salePrice": 9900 },
-      { "id": "menu-10-2", "name": "브런치 세트", "image": "/images/roll.jpg", "originalPrice": 18000, "salePrice": 11900 },
-      { "id": "menu-10-3", "name": "디저트 플레이트", "image": "/images/sashimi.jpg", "originalPrice": 12000, "salePrice": 7900 },
-      { "id": "menu-10-4", "name": "애프터눈 티 세트", "image": "/images/uni.jpg", "originalPrice": 22000, "salePrice": 14900 },
-      { "id": "menu-10-5", "name": "케이크 + 음료", "image": "/images/anago.jpg", "originalPrice": 13000, "salePrice": 8900 }
+      { "id": "menu-10-1", "name": "런치 세트", "image": "", "originalPrice": 15000, "salePrice": 9900 },
+      { "id": "menu-10-2", "name": "브런치 세트", "image": "", "originalPrice": 18000, "salePrice": 11900 },
+      { "id": "menu-10-3", "name": "디저트 플레이트", "image": "", "originalPrice": 12000, "salePrice": 7900 }
     ],
     "distance": 1800,
     "isNew": false,
@@ -246,13 +253,14 @@
     "id": "store-11",
     "name": "피자파티",
     "address": "서울시 강남구 대치동",
-    "images": ["/images/pizza1.jpg", "/images/pizza2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-11-1", "name": "페퍼로니 피자", "image": "/images/pepperoni.jpg", "originalPrice": 18000, "salePrice": 11900 },
-      { "id": "menu-11-2", "name": "하와이안 피자", "image": "/images/hawaiian.jpg", "originalPrice": 19000, "salePrice": 12500 },
-      { "id": "menu-11-3", "name": "불고기 피자", "image": "/images/bulgogi-pizza.jpg", "originalPrice": 20000, "salePrice": 13900 },
-      { "id": "menu-11-4", "name": "고르곤졸라 피자", "image": "/images/gorgonzola.jpg", "originalPrice": 21000, "salePrice": 14500 },
-      { "id": "menu-11-5", "name": "마르게리타 피자", "image": "/images/margherita.jpg", "originalPrice": 17000, "salePrice": 10900 }
+      { "id": "menu-11-1", "name": "페퍼로니 피자", "image": "", "originalPrice": 18000, "salePrice": 11900 },
+      { "id": "menu-11-2", "name": "하와이안 피자", "image": "", "originalPrice": 19000, "salePrice": 12500 },
+      { "id": "menu-11-3", "name": "불고기 피자", "image": "", "originalPrice": 20000, "salePrice": 13900 }
     ],
     "distance": 550,
     "isNew": true,
@@ -270,13 +278,14 @@
     "id": "store-12",
     "name": "보문산아래빵집",
     "address": "서울시 성북구 보문동",
-    "images": ["/images/bomunbread1.jpg", "/images/bomunbread2.jpg"],
+    "images": [
+      "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&h=300&fit=crop"
+    ],
     "menuItems": [
-      { "id": "menu-12-1", "name": "잠실라떼빵", "image": "/images/club.jpg", "originalPrice": 4500, "salePrice": 2900 },
-      { "id": "menu-12-2", "name": "우유식빵", "image": "/images/blt.jpg", "originalPrice": 5500, "salePrice": 3500 },
-      { "id": "menu-12-3", "name": "모카번", "image": "/images/egg-sand.jpg", "originalPrice": 4000, "salePrice": 2500 },
-      { "id": "menu-12-4", "name": "슈크림빵", "image": "/images/chicken-sand.jpg", "originalPrice": 4500, "salePrice": 2800 },
-      { "id": "menu-12-5", "name": "소세지빵", "image": "/images/tuna-sand.jpg", "originalPrice": 4000, "salePrice": 2500 }
+      { "id": "menu-12-1", "name": "잠실라떼빵", "image": "", "originalPrice": 4500, "salePrice": 2900 },
+      { "id": "menu-12-2", "name": "우유식빵", "image": "", "originalPrice": 5500, "salePrice": 3500 },
+      { "id": "menu-12-3", "name": "모카번", "image": "", "originalPrice": 4000, "salePrice": 2500 }
     ],
     "distance": 380,
     "isNew": false,

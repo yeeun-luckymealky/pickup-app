@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { useFilterStore } from '@/store/useFilterStore';
 import StoreCard from './StoreCard';
-import EventBanner from './EventBanner';
+import RollingEventBanner from './RollingEventBanner';
 import type { Store } from '@/types/store';
 import type { Event } from '@/types/store';
 
@@ -79,30 +79,19 @@ export default function StoreList({ stores, events }: StoreListProps) {
     );
   }
 
-  // Insert event banners between stores
-  const eventInsertInterval = 3;
-  const items: (Store | Event)[] = [];
-  let eventIndex = 0;
-
-  filteredAndSortedStores.forEach((store, index) => {
-    items.push(store);
-    if (
-      (index + 1) % eventInsertInterval === 0 &&
-      eventIndex < events.length
-    ) {
-      items.push(events[eventIndex]);
-      eventIndex++;
-    }
-  });
-
   return (
     <div className="space-y-4">
-      {items.map((item) => {
-        if ('menuItems' in item) {
-          return <StoreCard key={item.id} store={item} />;
-        }
-        return <EventBanner key={item.id} event={item} />;
-      })}
+      {filteredAndSortedStores.map((store, index) => (
+        <div key={store.id}>
+          <StoreCard store={store} />
+          {/* 3번째 가게 뒤에만 롤링 배너 표시 */}
+          {index === 2 && events.length > 0 && (
+            <div className="mt-4">
+              <RollingEventBanner events={events} />
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
