@@ -1,11 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { Check, Home, Building2, Plus, Pencil, Trash2, ChevronRight, ChevronLeft } from 'lucide-react';
-import Modal from '@/components/ui/Modal';
-import locationsData from '@/data/locations.json';
+import { useState, useEffect } from 'react';
+import { X, Search, Crosshair, Home, ChevronRight } from 'lucide-react';
 import { useSavedLocationStore } from '@/store/useSavedLocationStore';
-import type { LocationData } from '@/types/filter';
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -14,10 +11,7 @@ interface LocationModalProps {
   onSelectLocation: (location: string) => void;
 }
 
-const locations: LocationData = locationsData as LocationData;
-const cities = Object.keys(locations);
-
-type RegisterMode = 'home' | 'work' | null;
+type ViewMode = 'main' | 'search' | 'map';
 
 export default function LocationModal({
   isOpen,
@@ -25,418 +19,256 @@ export default function LocationModal({
   currentLocation,
   onSelectLocation,
 }: LocationModalProps) {
-  const { home, work, setHome, setWork, clearHome, clearWork } = useSavedLocationStore();
-  const [registerMode, setRegisterMode] = useState<RegisterMode>(null);
-  const [showFavorites, setShowFavorites] = useState(false);
+  const { home, setHome } = useSavedLocationStore();
+  const [viewMode, setViewMode] = useState<ViewMode>('main');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState<{
+    name: string;
+    address: string;
+    lat: number;
+    lng: number;
+  } | null>(null);
 
-  // 현재 선택된 시/구 파싱
-  const [currentCity, currentDistrict] = useMemo(() => {
-    const parts = currentLocation.split(' ');
-    return [parts[0] || '서울', parts[1] || '전체'];
-  }, [currentLocation]);
-
-  const [selectedCity, setSelectedCity] = useState(currentCity);
-  const [selectedDistrict, setSelectedDistrict] = useState(currentDistrict);
-
-  // 모달이 열릴 때 상태 동기화
+  // 모달이 열릴 때 상태 초기화
   useEffect(() => {
     if (isOpen) {
-      setSelectedCity(currentCity);
-      setSelectedDistrict(currentDistrict);
-      setShowFavorites(false);
-      setRegisterMode(null);
+      setViewMode('main');
+      setSearchQuery('');
+      setSelectedAddress(null);
     }
-  }, [isOpen, currentCity, currentDistrict]);
+  }, [isOpen]);
 
-  // 선택된 시의 구 목록
-  const districts = useMemo(() => {
-    if (!selectedCity) return [];
-    return locations[selectedCity] || ['전체'];
-  }, [selectedCity]);
+  if (!isOpen) return null;
 
-  // 현재 선택된 위치
-  const currentSelection = `${selectedCity} ${selectedDistrict}`;
-
-  // 집/회사 선택 상태
-  const isHomeSelected = home === currentSelection;
-  const isWorkSelected = work === currentSelection;
-
-  // 시 선택 핸들러
-  const handleCitySelect = (city: string) => {
-    setSelectedCity(city);
-    // 시가 변경되면 구 선택 해제
-    setSelectedDistrict('');
+  // 현재 위치로 주소 찾기
+  const handleCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          // 임시로 좌표 기반 주소 설정 (실제로는 reverse geocoding 필요)
+          setSelectedAddress({
+            name: '현재 위치',
+            address: `위도: ${latitude.toFixed(4)}, 경도: ${longitude.toFixed(4)}`,
+            lat: latitude,
+            lng: longitude,
+          });
+          setViewMode('map');
+        },
+        (error) => {
+          alert('위치 정보를 가져올 수 없습니다.');
+          console.error(error);
+        }
+      );
+    } else {
+      alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
+    }
   };
 
-  // 구 선택 핸들러 (선택 완료)
-  const handleDistrictSelect = (district: string) => {
-    setSelectedDistrict(district);
+  // 주소 검색 결과 선택 (데모용)
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      setSelectedAddress({
+        name: searchQuery,
+        address: `서울특별시 ${searchQuery}`,
+        lat: 37.5665,
+        lng: 126.9780,
+      });
+      setViewMode('map');
+    }
+  };
 
-    // 등록 모드가 아닌 경우에만 선택 완료
-    if (!registerMode) {
-      const newLocation = `${selectedCity} ${district}`;
-      onSelectLocation(newLocation);
+  // 주소 설정 완료
+  const handleConfirmAddress = () => {
+    if (selectedAddress) {
+      onSelectLocation(selectedAddress.address);
       onClose();
     }
   };
 
-  // 저장 핸들러 (등록 모드)
-  const handleSaveLocation = () => {
-    if (!registerMode) return;
-
-    if (registerMode === 'home') {
-      setHome(currentSelection);
-    } else if (registerMode === 'work') {
-      setWork(currentSelection);
-    }
-
-    setRegisterMode(null);
-    setShowFavorites(true); // 저장 후 즐겨찾기 목록으로 돌아감
-  };
-
-  // 즐겨찾기 위치 선택 핸들러
-  const handleSavedLocationSelect = (location: string) => {
-    onSelectLocation(location);
-    onClose();
-  };
-
-  // 등록 모드 취소
-  const handleCancelRegister = () => {
-    setRegisterMode(null);
-    setShowFavorites(true); // 취소 시 즐겨찾기 목록으로 돌아감
-    // 취소 시 원래 위치로 복원
-    setSelectedCity(currentCity);
-    setSelectedDistrict(currentDistrict);
-  };
-
-  // 등록 모드 진입
-  const handleEnterRegisterMode = (mode: 'home' | 'work') => {
-    setRegisterMode(mode);
-
-    // 기존 값이 있으면 해당 값으로 선택, 없으면 초기화
-    const existingLocation = mode === 'home' ? home : work;
-    if (existingLocation) {
-      const [city, district] = existingLocation.split(' ');
-      setSelectedCity(city || '');
-      setSelectedDistrict(district || '');
-    } else {
-      setSelectedCity('');
-      setSelectedDistrict('');
+  // 집으로 등록
+  const handleSetAsHome = () => {
+    if (selectedAddress) {
+      setHome(selectedAddress.address);
+      onSelectLocation(selectedAddress.address);
+      onClose();
     }
   };
 
-  // 삭제 핸들러
-  const handleDeleteLocation = () => {
-    if (registerMode === 'home') {
-      clearHome();
-    } else if (registerMode === 'work') {
-      clearWork();
-    }
-    setRegisterMode(null);
-    setShowFavorites(true); // 삭제 후 즐겨찾기 목록으로 돌아감
-    // 원래 위치로 복원
-    setSelectedCity(currentCity);
-    setSelectedDistrict(currentDistrict);
-  };
+  // 메인 뷰 (주소 관리)
+  const renderMainView = () => (
+    <div className="flex flex-col h-full">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+        <button onClick={onClose} className="p-1">
+          <X className="w-6 h-6 text-gray-700" />
+        </button>
+        <h2 className="text-lg font-bold">주소 관리</h2>
+        <div className="w-8" />
+      </div>
 
-  // 모달 제목
-  const modalTitle = registerMode === 'home'
-    ? '집 설정'
-    : registerMode === 'work'
-    ? '회사 설정'
-    : showFavorites
-    ? '즐겨찾기'
-    : '지역 선택';
+      {/* 검색창 */}
+      <div className="px-4 py-4">
+        <button
+          onClick={() => setViewMode('search')}
+          className="flex items-center gap-3 w-full py-3 border-b border-gray-200"
+        >
+          <Search className="w-5 h-5 text-gray-400" />
+          <span className="text-gray-400">도로명, 건물명 또는 지번으로 검색</span>
+        </button>
+      </div>
+
+      {/* 현재 위치로 주소 찾기 */}
+      <div className="px-4">
+        <button
+          onClick={handleCurrentLocation}
+          className="flex items-center justify-center gap-2 w-full py-4 border border-gray-300 rounded-lg text-gray-700 font-medium"
+        >
+          <Crosshair className="w-5 h-5" />
+          <span>현재 위치로 주소 찾기</span>
+        </button>
+      </div>
+
+      {/* 집 추가 */}
+      <div className="px-4 mt-6">
+        <button
+          onClick={() => {
+            setViewMode('search');
+          }}
+          className="flex items-center gap-3 w-full py-3"
+        >
+          <Home className="w-5 h-5 text-gray-600" />
+          <span className="text-gray-700">{home ? '집 수정' : '집 추가'}</span>
+          {home && (
+            <span className="text-sm text-gray-400 ml-auto truncate max-w-[150px]">
+              {home}
+            </span>
+          )}
+          <ChevronRight className="w-5 h-5 text-gray-400" />
+        </button>
+      </div>
+    </div>
+  );
+
+  // 검색 뷰
+  const renderSearchView = () => (
+    <div className="flex flex-col h-full">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+        <button onClick={() => setViewMode('main')} className="p-1">
+          <X className="w-6 h-6 text-gray-700" />
+        </button>
+        <h2 className="text-lg font-bold">주소 관리</h2>
+        <div className="w-8" />
+      </div>
+
+      {/* 검색 입력 */}
+      <div className="px-4 py-4">
+        <div className="flex items-center gap-3 py-3 border-b border-gray-200">
+          <Search className="w-5 h-5 text-gray-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
+            placeholder="도로명, 건물명 또는 지번으로 검색"
+            className="flex-1 outline-none text-gray-700 placeholder-gray-400"
+            autoFocus
+          />
+        </div>
+      </div>
+
+      {/* 현재 위치로 주소 찾기 */}
+      <div className="px-4">
+        <button
+          onClick={handleCurrentLocation}
+          className="flex items-center justify-center gap-2 w-full py-4 border border-gray-300 rounded-lg text-gray-700 font-medium"
+        >
+          <Crosshair className="w-5 h-5" />
+          <span>현재 위치로 주소 찾기</span>
+        </button>
+      </div>
+
+      {/* 검색 결과 (데모) */}
+      {searchQuery && (
+        <div className="px-4 mt-4">
+          <button
+            onClick={handleSearchSubmit}
+            className="w-full text-left py-3 px-4 bg-gray-50 rounded-lg hover:bg-gray-100"
+          >
+            <p className="font-medium text-gray-900">{searchQuery}</p>
+            <p className="text-sm text-gray-500">서울특별시 {searchQuery}</p>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+
+  // 지도 확인 뷰
+  const renderMapView = () => (
+    <div className="flex flex-col h-full">
+      {/* 헤더 */}
+      <div className="absolute top-4 left-4 z-10">
+        <button
+          onClick={() => setViewMode('main')}
+          className="p-2 bg-white rounded-full shadow-md"
+        >
+          <X className="w-5 h-5 text-gray-700" />
+        </button>
+      </div>
+
+      {/* 안내 메시지 */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
+        <div className="px-4 py-2 bg-gray-800 text-white text-sm rounded-full">
+          입력하신 주소지를 확인해주세요
+        </div>
+      </div>
+
+      {/* 지도 영역 (placeholder) */}
+      <div className="flex-1 bg-gray-200 flex items-center justify-center relative">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+            <span className="text-white text-xs">배달위치</span>
+          </div>
+          <p className="text-gray-500 text-sm">지도 영역</p>
+          <p className="text-gray-400 text-xs mt-1">
+            {selectedAddress?.lat.toFixed(4)}, {selectedAddress?.lng.toFixed(4)}
+          </p>
+        </div>
+      </div>
+
+      {/* 하단 주소 정보 */}
+      <div className="bg-white px-4 py-5 rounded-t-2xl -mt-4 relative z-10">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">
+              {selectedAddress?.name}
+            </h3>
+            <p className="text-gray-500 mt-1">{selectedAddress?.address}</p>
+          </div>
+          <button
+            onClick={() => setViewMode('search')}
+            className="text-blue-500 font-medium"
+          >
+            수정
+          </button>
+        </div>
+
+        <button
+          onClick={handleConfirmAddress}
+          className="w-full py-4 bg-blue-500 text-white font-semibold rounded-lg"
+        >
+          설정하기
+        </button>
+      </div>
+    </div>
+  );
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={modalTitle}
-      fixedHeight
-      footer={
-        registerMode ? (
-          <div className="flex gap-2">
-            <button
-              onClick={handleCancelRegister}
-              className="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
-            >
-              취소
-            </button>
-            {/* 삭제 버튼 - 기존에 등록된 위치가 있을 때만 표시 */}
-            {((registerMode === 'home' && home) || (registerMode === 'work' && work)) && (
-              <button
-                onClick={handleDeleteLocation}
-                className="px-4 py-3 bg-red-50 text-red-500 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
-                aria-label="삭제"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-            )}
-            <button
-              onClick={handleSaveLocation}
-              disabled={!selectedCity || !selectedDistrict}
-              className={`flex-1 px-4 py-3 rounded-lg text-sm font-semibold transition-colors ${
-                selectedCity && selectedDistrict
-                  ? 'bg-green-500 text-white hover:bg-green-600'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {!selectedCity
-                ? '시/도를 선택해주세요'
-                : !selectedDistrict
-                ? '구/군을 선택해주세요'
-                : `${selectedCity} ${selectedDistrict}로 저장`}
-            </button>
-          </div>
-        ) : undefined
-      }
-    >
-      <div className="space-y-4">
-        {/* 즐겨찾기 목록 뷰 */}
-        {showFavorites && !registerMode && (
-          <div className="space-y-2">
-            {/* 뒤로가기 */}
-            <button
-              onClick={() => setShowFavorites(false)}
-              className="flex items-center gap-1 text-gray-500 hover:text-gray-700 mb-4"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span className="text-sm">지역 선택으로 돌아가기</span>
-            </button>
-
-            {/* 집 */}
-            <button
-              onClick={() => home ? handleSavedLocationSelect(home) : handleEnterRegisterMode('home')}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <Home className="w-5 h-5 text-gray-600" />
-                <div className="text-left">
-                  <p className="text-sm font-medium text-gray-900">집</p>
-                  {home && <p className="text-xs text-gray-500">{home}</p>}
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                {home ? (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEnterRegisterMode('home');
-                    }}
-                    className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </button>
-                ) : (
-                  <Plus className="w-5 h-5 text-gray-400" />
-                )}
-              </div>
-            </button>
-
-            {/* 회사 */}
-            <button
-              onClick={() => work ? handleSavedLocationSelect(work) : handleEnterRegisterMode('work')}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <Building2 className="w-5 h-5 text-gray-600" />
-                <div className="text-left">
-                  <p className="text-sm font-medium text-gray-900">회사</p>
-                  {work && <p className="text-xs text-gray-500">{work}</p>}
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                {work ? (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEnterRegisterMode('work');
-                    }}
-                    className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </button>
-                ) : (
-                  <Plus className="w-5 h-5 text-gray-400" />
-                )}
-              </div>
-            </button>
-          </div>
-        )}
-
-        {/* 지역 선택 뷰 (메인) */}
-        {!showFavorites && !registerMode && (
-          <>
-            {/* 즐겨찾기 영역 */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {/* 집 버튼 - 등록되어 있으면 바로 선택 가능 */}
-                {home ? (
-                  <button
-                    onClick={() => handleSavedLocationSelect(home)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-colors ${
-                      isHomeSelected
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    <Home className="w-4 h-4" />
-                    <span className="text-sm font-medium">집</span>
-                    {isHomeSelected && <Check className="w-4 h-4" />}
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setShowFavorites(true)}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    <Home className="w-4 h-4" />
-                    <span className="text-sm font-medium">집</span>
-                    <Plus className="w-4 h-4" />
-                  </button>
-                )}
-
-                {/* 회사 버튼 - 등록되어 있으면 바로 선택 가능 */}
-                {work ? (
-                  <button
-                    onClick={() => handleSavedLocationSelect(work)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-colors ${
-                      isWorkSelected
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    <Building2 className="w-4 h-4" />
-                    <span className="text-sm font-medium">회사</span>
-                    {isWorkSelected && <Check className="w-4 h-4" />}
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setShowFavorites(true)}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    <Building2 className="w-4 h-4" />
-                    <span className="text-sm font-medium">회사</span>
-                    <Plus className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-
-              {/* 즐겨찾기 목록으로 이동 */}
-              <button
-                onClick={() => setShowFavorites(true)}
-                className="p-2.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
-                aria-label="즐겨찾기 목록"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* 시 선택 영역 */}
-            <div>
-              <p className="text-sm font-medium text-gray-500 mb-2">시/도</p>
-              <div className="flex flex-wrap gap-2">
-                {cities.map((city) => (
-                  <button
-                    key={city}
-                    onClick={() => handleCitySelect(city)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                      selectedCity === city
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {city}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 구 선택 영역 */}
-            <div>
-              <p className="text-sm font-medium text-gray-500 mb-2">
-                구/군{selectedCity ? ` (${selectedCity})` : ''}
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                {districts.map((district) => {
-                  const isSelected = district === selectedDistrict;
-                  return (
-                    <button
-                      key={district}
-                      onClick={() => handleDistrictSelect(district)}
-                      className={`flex items-center justify-center gap-1 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                        isSelected
-                          ? 'bg-green-50 text-green-600 border border-green-200'
-                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-transparent'
-                      }`}
-                    >
-                      {district}
-                      {isSelected && <Check className="w-4 h-4" />}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* 등록 모드 (집/회사 설정) */}
-        {registerMode && (
-          <>
-            {/* 시 선택 영역 */}
-            <div>
-              <p className="text-sm font-medium text-gray-500 mb-2">시/도</p>
-              <div className="flex flex-wrap gap-2">
-                {cities.map((city) => (
-                  <button
-                    key={city}
-                    onClick={() => handleCitySelect(city)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                      selectedCity === city
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {city}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 구 선택 영역 */}
-            <div>
-              <p className="text-sm font-medium text-gray-500 mb-2">
-                구/군{selectedCity ? ` (${selectedCity})` : ''}
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                {districts.length === 0 ? (
-                  <p className="col-span-3 text-sm text-gray-400 py-4 text-center">
-                    시/도를 먼저 선택해주세요
-                  </p>
-                ) : (
-                  districts.map((district) => {
-                    const isSelected = district === selectedDistrict;
-                    return (
-                      <button
-                        key={district}
-                        onClick={() => handleDistrictSelect(district)}
-                        className={`flex items-center justify-center gap-1 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                          isSelected
-                            ? 'bg-green-50 text-green-600 border border-green-200'
-                            : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-transparent'
-                        }`}
-                      >
-                        {district}
-                        {isSelected && <Check className="w-4 h-4" />}
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </Modal>
+    <div className="fixed inset-0 z-50 bg-white">
+      {viewMode === 'main' && renderMainView()}
+      {viewMode === 'search' && renderSearchView()}
+      {viewMode === 'map' && renderMapView()}
+    </div>
   );
 }
